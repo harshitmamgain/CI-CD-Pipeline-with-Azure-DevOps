@@ -1,23 +1,25 @@
 # CI/CD Pipeline with Azure DevOps for .NET Application
 
-In this Project, I have created an automated build and release pipeline for .NET application with Azure DevOps. The Application is deployed on the Azure WebApp.
-Complete Pipeline
-<Explain the Pipeline>
-Added approval before each and every component, explain
-Contineous Integraton and Contineous Deployment will auto trigger once the code is being pushed to the Repo
+In this project, I have implemented an automated build and release pipeline for the 'Helloworldapp' application using Azure DevOps. The application is deployed on the Azure WebApp. The Continuous Integration (CI) and Continuous Deployment (CD) processes are set up to automatically trigger whenever code is pushed to the Azure Repos. This ensures that any changes made to the code are immediately integrated, built, and deployed to the Azure WebApp without manual intervention. This streamlined approach enables faster and more frequent deployments, enhancing the agility and efficiency of the development and deployment cycle.
+
+The complete pipeline has been designed to ensure a smooth and controlled deployment process. To ensure maximum quality and reliability, I have added an approval step before each component of the release pipeline. This means that before proceeding to the next stage, such as building, testing, or deploying the application, an approval is required from the designated personnel. This allows for thorough validation and verification of the changes being introduced. 
+
+Within the production environment, I have implemented a Staging Slot for the WebApp. Leveraging this staging slot, the entire application is seamlessly hosted, ensuring a smooth transition during deployment. By performing a slot swap, Azure orchestrates the process meticulously, guaranteeing zero downtime for the application as it undergoes publication.
 
 
 # Overview
- - The services that were used during the course of this Projects are as follows:
+ - The services that were used to implement this Projects are as follows:
      - Azure DevOps
      - Azure Repos
      - Azure Pipelines 
      - App Service
      - Deployment Slots
+     - Service Principals
+     - Role Based Access Control (RBAC)
    
-# Steps
- ## Creating the .NET Application on Local Machine
-  I have executed the following commands to create a .NET application on the local machine.
+# Detailed Steps
+ ## Creating and then Pushing the Application to Azure Repos
+  - To create a simple application named 'HelloworldApp', I executed the following commands on my local machine to create the .NET application:
    
     >dotnet new sln -o HelloworldApp <br>
     >cd HelloworldApp <br>
@@ -29,10 +31,10 @@ Contineous Integraton and Contineous Deployment will auto trigger once the code 
  
 ![2](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/6b8f5a93-6c2d-480b-acec-d6eefc499146)
   
-  The application is available on the Local host - http://localhost:5000/
+ - The application is available on the Local host - http://localhost:5000/
  
  ![3](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/fa5d6b75-023d-4b91-99a3-b04dbdebaf27)  
-- Now initialising GIT on the local machine to push the application on the Azure Repository.
+- Now initialising GIT, Adding on the local machine to push the application on the Azure Repository.
     
     >git init <br>
     >git status <br>
@@ -44,12 +46,12 @@ Contineous Integraton and Contineous Deployment will auto trigger once the code 
 
  ![2](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/70a23731-049c-4b9c-bf41-cf0aba199d34)
     
- The application has now been successfully pushed and is available in the Azure Repos.
+ - The application has now been successfully pushed and is available in the Azure Repos, making it readily available for further development and collaboration.
 
  ![4](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/96b5b752-e9ca-491a-a8b1-4dd95594dfb3)
  
  ## Create a Continuous Integration Pipeline. 
-  - Using the classic editor to create a Continuous Integration Pipeline.
+  - Using the classic editor to create a Continuous Integration pipeline, which allows for seamless integration of code changes, automated builds, and continuous delivery of the application.
  
  ![5](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/88eca3c7-c6a5-44d7-885c-7641445c00cc)
   
@@ -60,7 +62,7 @@ Contineous Integraton and Contineous Deployment will auto trigger once the code 
        Artifact name – drop <br>
        Path to publish - $(build.artifactstagingdirectory)
 
-I have disabled the Test Project, as this is not a part of the project. 
+(The Agent will perform Restore, Build and finally Publsih the Application to the Artifact named 'drop'. I will utilise this Artifact during the Release Pipeline. I have disabled the 'Test' job, as this is not needed for this project.) 
  
 ![5 1](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/939bcd4d-45ff-48ca-ab87-95abbe6dff02)
  
