@@ -14,6 +14,7 @@ Within the production environment, I have implemented a Staging Slot for the Web
      - Azure Pipelines 
      - App Service
      - Deployment Slots
+     - App Registrations
      - Service Principals
      - Role Based Access Control (RBAC)
    
