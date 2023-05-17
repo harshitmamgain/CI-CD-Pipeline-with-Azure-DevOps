@@ -1,10 +1,10 @@
 # CI/CD Pipeline with Azure DevOps for .NET Application
 
-In this project, I have implemented an automated build and release pipeline for the 'Helloworldapp' application using Azure DevOps. The application is deployed on the Azure WebApp. The Continuous Integration (CI) and Continuous Deployment (CD) processes are set up to automatically trigger whenever code is pushed to the Azure Repos. This ensures that any changes made to the code are immediately integrated, built, and deployed to the Azure WebApp without manual intervention. This streamlined approach enables faster and more frequent deployments, enhancing the agility and efficiency of the development and deployment cycle.
+In this project, I have implemented an automated build and release for the 'Helloworldapp' application using Azure DevOps, deployed on Azure WebApp. The Continuous Integration (CI) and Continuous Deployment (CD) processes are set up to automatically trigger whenever code is pushed to the Azure Repos. This ensures that any changes made to the code are immediately integrated, built, and deployed to the Azure WebApp without manual intervention. 
 
-The complete pipeline has been designed to ensure a smooth and controlled deployment process. To ensure maximum quality and reliability, I have added an approval step before each component of the release pipeline. This means that before proceeding to the next stage, such as building, testing, or deploying the application, an approval is required from the designated personnel. This allows for thorough validation and verification of the changes being introduced. 
+This streamlined approach enables faster and more frequent deployments, enhancing the agility and efficiency of the development and deployment cycle. The complete pipeline has been designed to ensure a smooth and controlled deployment process. To ensure maximum quality and reliability, I have added an approval step before each component of the release pipeline. This means that before proceeding to the next stage, such as building, testing, or deploying the application, an approval is required from the designated personnel. This allows for thorough validation and verification of the changes being introduced. 
 
-Within the production environment, I have implemented a Staging Slot for the WebApp. Leveraging this staging slot, the entire application is seamlessly hosted, ensuring a smooth transition during deployment. By performing a slot swap, Azure orchestrates the process meticulously, guaranteeing zero downtime for the application as it undergoes publication.
+In the production environment, I have implemented a Staging Slot for the WebApp. Leveraging this staging slot, the entire application is seamlessly hosted, ensuring a smooth transition during deployment. By performing a slot swap, Azure orchestrates the process meticulously, guaranteeing zero downtime for the application as it undergoes publication.
 
 
 # Overview
@@ -41,7 +41,7 @@ Within the production environment, I have implemented a Staging Slot for the Web
     >git status <br>
     >git add . <br>
     >git commit -m "Intial Status" <br>
-    >git remote add origin https://hmamgain79@dev.azure.com/hmamgain79/CI%20CD%20Pipeline%20for%20.NET%20Application/_git/CI%20CD%20Pipeline%20for%20.NET%20Application <br>
+    >git remote add origin "Azure Repo URI" <br>
     >git push -u origin --all
  
 
@@ -61,13 +61,12 @@ Within the production environment, I have implemented a Staging Slot for the Web
        Agent Pool – Azure Pipelines <br>
        Agent Specification - ubuntu-20.04 <br>
        Artifact name – drop <br>
-       Path to publish - $(build.artifactstagingdirectory)
 
 (The Agent will perform Restore, Build and finally Publsih the Application to the Artifact named 'drop'. I will utilise this Artifact during the Release Pipeline. I have disabled the 'Test' job, as this is not needed for this project.) 
  
 ![5 1](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/939bcd4d-45ff-48ca-ab87-95abbe6dff02)
  
-- This the build pipeline, the agent has performed the following task that are mentioned in the image below.
+- This the build pipeline, the agent has performed the following task that is mentioned in the image below.
  
  ![7](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/ba5b0df0-5e3b-440a-9371-484b7c65f5a9)
  
@@ -109,7 +108,7 @@ Within the production environment, I have implemented a Staging Slot for the Web
  ![10](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/771bc4dd-588c-42b1-bcb4-1269b4baab90)
       
   - QA
-    - Name - helloworlddemoapp-qa-testing <br>
+    - Name - helloworldapp-qa-testing <br>
       Resource Group - HelloWorldApp <br>
       Runtime Stack - .NET 7 <br>
       Region – East US <br>
@@ -118,7 +117,7 @@ Within the production environment, I have implemented a Staging Slot for the Web
  ![10 2](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/e24e5e22-9793-42b3-8845-ec522f8fa000)
    
    - PROD
-     - Name - helloworlddemoapp-qa-testing <br>
+     - Name - real-helloworldapp <br>
        Resource Group - HelloWorldApp <br>
        Runtime Stack - .NET 7 <br>
        Region – East US <br>
@@ -133,19 +132,20 @@ Within the production environment, I have implemented a Staging Slot for the Web
 
 ## Creating a Release Pipeline
 This means that I will be connecting the WebApp with the end of the Release Pipeline to publish the code to the user through WebApp. For this, I need to configure the Azure Subscription to my DevOps Project. 
+To deploy your code to the user through the WebApp, I will need to establish a connection between the WebApp and the Release Pipeline. To achieve this, I will have to configure the Azure Subscription within Azure DevOps Project.
 
 ### To connect the Azure Subscription to DevOps Project to use WebApp, I have done the following steps.
 - In the Service Connection of the Projects, I have created an ARM Service Connection and selected Manual Service Principal.
  
-- In Azure Portal, In App registrations I have created a New Service Principal called Azure DevOps SP. With the 
+- In the Azure Portal, I have created a new App registration and then created a New Service Principal called "Azure DevOps SP". 
  
  ![11](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/9557182b-99fc-4585-a6cd-f1f3edae53ed)
  
-- Created a New Secret for the SP
+- Created a New Secret for the Service Principal.
  
  ![12](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/0d115a3b-6dcc-4491-8536-566a8fa92055)
  
-- Granted Contributor Role to the SP, so that It can access Azure DevOps.
+- Granted Contributor Role to the Service Principal, so that It can have contributor access to the Azure DevOps Project.
  
  ![13](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/fff40ef8-3f14-4e2c-9373-029ea49ca31d)
  
@@ -187,38 +187,34 @@ This means that I will be connecting the WebApp with the end of the Release Pipe
  
  ![23](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/5348c9d0-5b84-430a-8bf2-fc9ad04b024a)
   
-## TESTING THE CI/CD Pipeline
-  - Made changes to the code and now pushing the code to the Azure Repo
+## Testing the CI/CD Pipeline
+  - After making necessary changes to the code, I am now pushing the updated code to the Azure Repo. By doing so, the Continuous Integration (CI) and Continuous Deployment (CD) processes will be triggered automatically within the Azure DevOps pipeline.
   
  ![25](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/bbfbcc41-f015-495c-ac0d-9705c8cdb1dc)
  
-  - CI Pipeline Triggered
+  - The Continuous Integration (CI) pipeline has been successfully triggered in response to the code push to the Azure Repo. This automated process within the Azure DevOps pipeline will now initiate a series of actions to restore, build, and publish the updated code.
   
  ![24](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/1503b17b-93bc-4725-aa83-6d615da4ba93)
  
-  - CD Pipeline Triggered 
+  - The Continuous Deployment (CD) pipeline has been triggered following the successful completion of the Continuous Integration (CI) process. The CD pipeline is now responsible for automatically deploying the built and validated code to the Azure WebApp. 
  
  ![26](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/37487a44-615e-4766-bb34-77f2f12f156b)
   
-  Before approving, checking the application if OK
-  
-  - Before deploying to PROD, I need to approve
+  - Before proceeding with the deployment to the production environment, an approval step is required. This ensures that the changes made to the application have undergone proper validation and verification before being released to the end-users.
  
  ![28](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/9a3f1130-c8ca-46b3-9bc6-af5101e545b5)
   
-  The following job was performed before being deployed to the PROD.
+  - Before deploying to the production environment, a crucial step was taken to ensure a smooth transition during the deployment process. The webapp slots were swapped as part of the release pipeline.
+  - The following job was performed before being deployed to the PROD.
   
-  The Application is deployed 
-  FQDN - https://real-helloworldapp.azurewebsites.net/
+ - The application is now accessible through the Fully Qualified Domain Name (FQDN) provided: https://real-helloworldapp.azurewebsites.net/
+ - Users can now access the application using the provided URL and experience the latest version of the deployed application. The deployment process, including the build and release stages, has been completed, ensuring that the application is ready for use.
  
  ![29](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/ed0fa07c-6acc-4334-889b-5953935ab309)
 
 
-   
-# Troubleshooting
-
-![troubleshoot](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/c1c5d128-ab2e-4b7f-9d0a-17d64a0c1960)
-
 
 # Conclusion
+
+In conclusion, the implementation of an automated build and release pipeline using Azure DevOps has significantly improved the development and deployment process for the 'Helloworldapp' application. The Continuous Integration (CI) and Continuous Deployment (CD) processes ensure that code changes are quickly integrated, built, and deployed to the Azure WebApp without manual intervention. By incorporating approval steps at each stage of the release pipeline, the changes are thoroughly validated before progressing further, ensuring maximum quality and reliability. Additionally, the utilization of a Staging Slot in the production environment allows for a seamless transition during deployment, with zero downtime for the application. Overall, this streamlined approach has enhanced agility, efficiency, and control in the deployment process, facilitating faster and more frequent releases of the application.
 
