@@ -157,33 +157,37 @@ To deploy your code to the user through the WebApp, I will need to establish a c
  
  
  
-### Creating a Task for the helloworldapp1 in the Dev Environment
+### Create a Task in the Release Pipeline to deploy 'helloworldapp1' Azure App Service to Dev Environment
  
  ![16](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/9e148245-75bd-468f-bfb0-4ba08bd56bee)
 
-### Taking the Aritifact from the Build Pipeline and feeding it to the WebApp
+### Integrating the Artifact from the Build Pipeline into the 'Dev' WebApp
 
  ![17](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/37bc3b1d-3be2-44dd-b1fd-1156e76e19b4)
  
-### Creating 2 more Stages, these are QA and PROD. For QA, I am taking Pre Deployment from 
+### Creating Two Additional Stages: QA and PROD, with Pre-Deployment from DEV and QA Environments, respectively.
  
 ![19](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/5883953f-951f-49d2-b210-ea3b41c75554) 
  
 ![18](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/c20f13fa-73a0-4818-b22b-211e25931257)
  
-### In the PROD first task will be deploy on the staging slot 
+### In the PROD Stage, the Initial Task is to Deploy to the Staging Slot
  
  ![20](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/a8afbbd8-6bf8-488b-87dc-829f5b474e8d)
 
-### After being deployed to the staging, added a new task (App service Manage) for the agent to deploy the webapp to production	
+### Adding a New Task: App Service Manage - Deploy WebApp to Production
+
+- After the application has been deployed to the staging slot, the next task is to manage the App Service and deploy the WebApp to the production environment. This task involves configuring the necessary settings and deploying the application to the designated production slot or environment. By executing this task, the agent ensures a controlled and seamless deployment of the WebApp to the production environment, making the latest version of the application available to end-users.
  
  ![21](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/05ac6e1d-e843-4a35-9f1c-749432b1b08d)
 
-### Before moving into PROD, added a new agentless job, created a action in this for Manual Intervention
+### Adding Agentless Job with Manual Intervention Action Before Moving to PROD
+
+- Before proceeding with the deployment to the production (PROD) environment, an agentless job is incorporated into the release pipeline. This agentless job serves as a step where manual intervention is required before proceeding further. The purpose of this intervention is to allow designated personnel to review and approve the deployment to PROD, ensuring an extra layer of control and validation.
  
 ![22](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/a0db84c1-d8b1-4b39-8050-aa97be976cef) 
 
-### Added a Contineous Deployment Trigger, so that whenever there are changes to the to the code in the Development, CD Pipeline will update automatically.
+### Implementing Continuous Deployment Trigger for Automated CD Pipeline Updates on Code Changes in Development
  
  ![23](https://github.com/harshitmamgain/CI-CD-Pipeline-with-Azure-DevOps/assets/106948902/5348c9d0-5b84-430a-8bf2-fc9ad04b024a)
   
